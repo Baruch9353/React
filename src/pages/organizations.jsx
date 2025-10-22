@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function organizations() {
+export default function Organizations() {
   return (
-    <div>organizations</div>
+    <div>Organizations</div>
   )
 }

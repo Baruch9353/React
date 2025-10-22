@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function terrorists() {
+export default function Terrorists() {
   return (
-    <div>terrorists</div>
+    <div>Terrorists</div>
   )
 }
