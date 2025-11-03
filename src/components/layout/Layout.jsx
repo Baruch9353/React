@@ -1,23 +1,17 @@
 import SentinelEye from "../../assets/SentinelEye.png";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Drawer,
-  List,
-  ListItemButton,
-  ListItemText,
-  Box,
-} from "@mui/material";
+import { Logo } from "../layout/AppDrawer.jsx";
+import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import AppDrawer from "../layout/AppDrawer.jsx";
 
 const StyledAppBar = styled(AppBar)({
-  background: "#a7d8f0",
-  color: "#036a12",
+  position: "fixed",
+  background: "#c0e5f8ff",
+  color: "#316743ff",
+  boxShadow: "0 4px 8px rgba(31, 72, 89, 0.8)",
 });
 
 const StyledToolbar = styled(Toolbar)({
@@ -29,34 +23,12 @@ const Title = styled(Typography)({
   cursor: "pointer",
 });
 
-const Logo = styled("img")({
-  height: 80,
-  padding: 10,
-  borderRadius: 4,
-});
-
-const DrawerBox = styled(Box)({
-  width: 220,
-});
-
-const DrawerBoxStyled = styled(DrawerBox)({
-  textAlign: "center",
-  color: "#036a12",
-});
-
-export default function Layout() {
+export default function Layout({ children }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-
-  const items = [
-    { text: "Dashboard", path: "/dashboard" },
-    { text: "Organizations", path: "/organizations" },
-    { text: "Terrorists", path: "/terrorists" },
-  ];
-
   return (
     <>
-      <StyledAppBar position="static">
+      <StyledAppBar>
         <StyledToolbar>
           <IconButton color="inherit" onClick={() => setOpen(true)}>
             <MenuIcon fontSize="large" />
@@ -69,28 +41,8 @@ export default function Layout() {
           />
         </StyledToolbar>
       </StyledAppBar>
-
-      <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
-        <DrawerBoxStyled
-          onClick={() => setOpen(false)}
-          onKeyDown={() => setOpen(false)}
-        >
-          <List subheader={<Logo src={SentinelEye} alt="Sentinel Eye" />}>
-            <hr />
-            {items.map((item) => (
-              <ListItemButton
-                key={item.path}
-                onClick={() => {
-                  setOpen(false);
-                  navigate(item.path);
-                }}
-              >
-                <ListItemText primary={item.text} />
-              </ListItemButton>
-            ))}
-          </List>
-        </DrawerBoxStyled>
-      </Drawer>
+      <Box mt={"8rem"}>{children}</Box>
+      <AppDrawer open={open} setOpen={setOpen} />
     </>
   );
 }

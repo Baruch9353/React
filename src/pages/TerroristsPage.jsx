@@ -1,7 +1,7 @@
-import React from 'react'
+import TerroristsAccordion from "../components/terroristsComponents/TerroristsAccordion.jsx";
 
 export default function TerroristsPage() {
   return (
-    <div>TerroristsPage</div>
+    <TerroristsAccordion />
   )
 }

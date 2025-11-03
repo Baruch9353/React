@@ -1,7 +1,15 @@
-import React from 'react'
+import { useSelector } from "react-redux";
+import OrganizationsList from "../components/organizationsComponents/OrganizationList.jsx";
+import StatusData from "../utils/StatusData.jsx";
 
 export default function OrganizationsPage() {
-  return (
-    <div>OrganizationsPage</div>
-  )
+  const { organizations, loading, error } = useSelector(
+    (state) => state.organization
+  );
+    
+  return StatusData(
+    loading,
+    error,
+    <OrganizationsList organizations={organizations} />
+  );
 }
