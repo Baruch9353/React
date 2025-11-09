@@ -14,32 +14,23 @@ const StyledAppBar = styled(AppBar)({
   boxShadow: "0 4px 8px rgba(31, 72, 89, 0.8)",
 });
 
-const StyledToolbar = styled(Toolbar)({
-  justifyContent: "space-between",
-});
-
-const Title = styled(Typography)({
-  fontSize: "3rem",
-  cursor: "pointer",
-});
-
 export default function Layout({ children }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   return (
     <>
       <StyledAppBar>
-        <StyledToolbar>
+        <Toolbar sx={{justifyContent: "space-between"}}>
           <IconButton color="inherit" onClick={() => setOpen(true)}>
             <MenuIcon fontSize="large" />
           </IconButton>
-          <Title onClick={() => navigate("/dashboard")}>Sentinel Eye</Title>
+          <Typography fontSize="3rem">Sentinel Eye</Typography>
           <Logo
             src={SentinelEye}
             alt="Sentinel Eye"
             onClick={() => navigate("/dashboard")}
           />
-        </StyledToolbar>
+        </Toolbar>
       </StyledAppBar>
       <Box mt={"8rem"}>{children}</Box>
       <AppDrawer open={open} setOpen={setOpen} />

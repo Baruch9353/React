@@ -8,6 +8,21 @@ export const Logo = styled("img")({
   padding: "0.8rem",
   borderRadius: "1.3rem",
 });
+const StyledDrawer = styled(Drawer)({
+  "& .MuiDrawer-paper": {
+    width: "13rem",
+    backgroundColor: "#c0e5f8ff",
+    color: "#316743ff",
+    alignItems: "center",
+  },
+});
+const StyledList = styled(List)({
+  borderTop: "0.1rem solid #316743ff",
+  backgroundColor: "#cef3f7ff",
+  marginTop: "2.3rem",
+  width: "90%",
+  borderRadius: "1rem",
+});
 
 export default function AppDrawer({ open, setOpen }) {
   const navigate = useNavigate();
@@ -17,20 +32,21 @@ export default function AppDrawer({ open, setOpen }) {
     { text: "Terrorists", path: "/terrorists" },
   ];
   return (
-    <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
-        <List subheader={<Logo src={SentinelEye} alt="Sentinel Eye" />}>
-          <hr />
-          {items.map((item) => (
-            <ListItemButton
-              key={item.path}
-              onClick={() => {
-                setOpen(false);
-                navigate(item.path);
-              }}>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          ))}
-        </List>
-    </Drawer>
+    <StyledDrawer open={open} onClose={() => setOpen(false)} anchor="left">
+      <Logo src={SentinelEye} alt="Sentinel Eye Logo" />
+      <StyledList>
+        {items.map((item) => (
+          <ListItemButton
+            key={item.path}
+            onClick={() => {
+              setOpen(false);
+              navigate(item.path);
+            }}
+          >
+            <ListItemText primary={item.text} />
+          </ListItemButton>
+        ))}
+      </StyledList>
+    </StyledDrawer>
   );
 }

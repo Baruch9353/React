@@ -2,13 +2,13 @@ import { createSlice, isRejected } from "@reduxjs/toolkit";
 import { fetchTerrorists } from "../api/fetchTerrorists";
 
 const initialState = {
-    terroristssList: [],
+    terroristsList: [],
     loading: false,
     error: null,
 }
 
 export const terroristsSlice = createSlice({
-    name: 'terroristsList',
+    name: 'terrorists',
     initialState,
     reducers: {
 
@@ -21,11 +21,11 @@ export const terroristsSlice = createSlice({
             })
             .addCase(fetchTerrorists.fulfilled, (state, action) => {
                 state.loading = false;
-                state.terroristssList = action.payload;
+                state.terroristsList = action.payload;
             })
             .addCase(fetchTerrorists.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error;
+                state.error = action.error.message;
             })
 
     }

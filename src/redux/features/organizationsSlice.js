@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchOrganizations } from "../api/fetchOrganizations";
 
 const initialState = {
-    organizations: [],
+    organizationsList: [],
     loading: false,
     error: null,
 }
@@ -21,7 +21,7 @@ export const organizationSlice = createSlice({
             })
             .addCase(fetchOrganizations.fulfilled, (state, action) => {
                 state.loading = false;
-                state.organizations  = action.payload;
+                state.organizationsList = action.payload;
             })
             .addCase(fetchOrganizations.rejected, (state, action) => {
                 state.loading = false;

@@ -4,7 +4,7 @@ import   terroristsSlice   from "./features/terroristsSlice";
 
 export const store = configureStore({
     reducer: {
-        organization: organizationSlice,
+        organizations: organizationSlice,
         terrorists: terroristsSlice
     }
 })

@@ -1,19 +1,23 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, styled } from "@mui/material";
 
-export default function StatusData(loading, error, content) {
+const StyledBox = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "100vh",
+});
+
+export default function StatusData({ loading, error, content }) {
   if (loading) {
     return (
-      <Box display="flex" alignItems="center">
+      <StyledBox>
         <CircularProgress />
-      </Box>
+      </StyledBox>
     );
   }
+
   if (error) {
-    return (
-      <Box display="flex" alignItems="center">
-        Error loading data: {error}
-      </Box>
-    );
+    return <StyledBox>Error loading data: {error}</StyledBox>;
   }
 
   return content;
