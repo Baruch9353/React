@@ -1,9 +1,16 @@
-import  apiRequest from './apiRequest.js'
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const fetchOrganizations = createAsyncThunk(
+import apiRequest from './apiRequest.js'
+
+export const  fetchOrganizations = createAsyncThunk(
     "organizations/fetchOrganizations",
-    async () => await apiRequest("organizations/getAllOrganizations")
+    async ({ search = ""} = {}) => {
+        let url = `organizations`;
+        if (search) {
+            url += `/?searchName=${search}`;
+        }
+        return await apiRequest(url, "GET");
+    }
 );
 
 export const fetchOrganizationById = createAsyncThunk(

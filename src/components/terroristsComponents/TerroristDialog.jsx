@@ -1,4 +1,10 @@
-import { styled, Dialog, DialogTitle, DialogContent, Typography } from "@mui/material";
+import {
+  styled,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Typography,
+} from "@mui/material";
 
 const StyledDialog = styled(Dialog)({
   "& .MuiDialogTitle-root": {
@@ -17,26 +23,28 @@ export default function TerroristDialog({ open, terrorist, onClose }) {
       {terrorist && (
         <StyledDialog open={open} onClose={onClose}>
           <DialogTitle>
-            {terrorist.name} ➡️ {terrorist.organizationName}
+            <strong>
+              {terrorist.name} ➡️ {terrorist.organizationName}
+            </strong>
           </DialogTitle>
           <DialogContent dividers>
             <Typography>
               <strong>Threat Level:</strong> {terrorist.threatLevel}
             </Typography>
             <Typography>
-              <strong>Activity Years:</strong> {terrorist.activityYears}
+              <strong>Activity years:</strong> {terrorist.activityYears}
             </Typography>
             <Typography>
               <strong>Status:</strong> {terrorist.status}
             </Typography>
             <Typography>
-              <strong>Intel Note:</strong> {terrorist.intelNote}
+              <strong>Intel note:</strong> {terrorist.intelNote}
             </Typography>
             <Typography>
-              <strong>Updated By:</strong> {terrorist.updatedBy}
+              <strong>Updated by:</strong> {terrorist.updatedBy}
             </Typography>
             <Typography>
-              <strong>Last Updated:</strong> {terrorist.lastUpdated}
+              <strong>Last updated:</strong> {terrorist.lastUpdated}
             </Typography>
           </DialogContent>
         </StyledDialog>

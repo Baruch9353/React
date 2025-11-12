@@ -3,7 +3,7 @@ import OrganizationCard from "./OrganizationCard";
 
 const StyledContainer = styled(Container)({
   textAlign: "center",
-  padding: "2.5rem",
+  padding: "2.5rem 1rem 2.5rem 1rem",
   color: "#316743",
   borderRadius: "0.6rem",
 });
@@ -11,9 +11,6 @@ const StyledContainer = styled(Container)({
 export default function OrganizationList({ organizations }) {
   return (
     <StyledContainer>
-      {/* <Typography  gutterBottom fontSize="2.3rem">
-        Organizations
-      </Typography> */}
       <Grid container spacing={7} justifyContent="center">
         {organizations.map((org) => (
           <Grid key={org.id}>

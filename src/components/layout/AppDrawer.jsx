@@ -1,7 +1,8 @@
-import { Drawer, List, ListItemButton, ListItemText } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import SentinelEye from "../../assets/SentinelEye.png";
 import { useNavigate } from "react-router";
+import { styled, Drawer, List, ListItemButton, ListItemText } from "@mui/material";
+
+import SentinelEye from "../../assets/SentinelEye.png";
+
 
 export const Logo = styled("img")({
   height: "5rem",

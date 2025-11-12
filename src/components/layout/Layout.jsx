@@ -1,10 +1,17 @@
-import SentinelEye from "../../assets/SentinelEye.png";
-import { Logo } from "../layout/AppDrawer.jsx";
-import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import {
+  styled,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Box,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+
+import SentinelEye from "../../assets/SentinelEye.png";
+import { Logo } from "../layout/AppDrawer.jsx";
 import AppDrawer from "../layout/AppDrawer.jsx";
 
 const StyledAppBar = styled(AppBar)({
@@ -20,7 +27,7 @@ export default function Layout({ children }) {
   return (
     <>
       <StyledAppBar>
-        <Toolbar sx={{justifyContent: "space-between"}}>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
           <IconButton color="inherit" onClick={() => setOpen(true)}>
             <MenuIcon fontSize="large" />
           </IconButton>

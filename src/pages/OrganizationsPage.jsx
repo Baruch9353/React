@@ -1,17 +1,30 @@
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import { selectOrganizationsWithTerrorists } from "../redux/selectors/selectTerroristsInOrg.js";
-import OrganizationsList from "../components/organizationsComponents/OrganizationList.jsx";
+
 import StatusData from "../utils/StatusData.jsx";
+import { fetchOrganizations } from "../redux/api/fetchOrganizations.js";
+import TopPageFilter from "../components/TopPage/TopPageFilter.jsx";
+import OrganizationsList from "../components/organizationsComponents/OrganizationList.jsx";
 
 export default function OrganizationsPage() {
-  const organizations = useSelector(selectOrganizationsWithTerrorists);
-  const { loading, error } = useSelector((state) => state.organizations);
+  const { loading, error, allOrganizationsList } = useSelector(
+    (state) => state.organizations
+  );
+  const [filtered, setFiltered] = useState(allOrganizationsList);
 
   return (
-    <StatusData
-      loading={loading}
-      error={error}
-      content={<OrganizationsList organizations={organizations} />}
-    />
+    <>
+      <TopPageFilter
+        description="Organizations"
+        fetchFunc={fetchOrganizations}
+        initialData={allOrganizationsList}
+        onChange={setFiltered}
+      />
+      <StatusData
+        loading={loading}
+        error={error}
+        content={<OrganizationsList organizations={filtered} />}
+      />
+    </>
   );
 }

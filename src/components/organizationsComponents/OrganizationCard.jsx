@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router";
 import { Avatar, Card, CardContent, Typography, styled } from "@mui/material";
+import {useTerroristsCount} from "../utils/useTerroristsCount.js";
 
 const StyledCard = styled(Card)({
   cursor: "pointer",
   transition: "0.3s",
-  "&:hover": { transform: "scale(1.03)" },
+  "&:hover": { transform: "scale(1.12)" },
   backgroundColor: "#c0e5f8ff",
   color: "green",
   borderRadius: "1rem",
@@ -17,8 +19,11 @@ const StyledAvatar = styled(Avatar)({
 });
 
 export default function OrganizationCard({ org }) {
+  const navigate = useNavigate();
+  const terroristsCount = useTerroristsCount(org.id);
+
   return (
-    <StyledCard>
+    <StyledCard onClick={() => navigate(`/organization/${org.id}`)}>
       <CardContent>
         <Typography fontSize="1.8rem" gutterBottom borderBottom={"1px solid "}>
           {org.name}
@@ -29,7 +34,7 @@ export default function OrganizationCard({ org }) {
           Threat Level: {org.threatLevel}
         </Typography>
         <Typography fontSize="1.3rem">
-          {org.terroristsCount} Terrorists
+          {terroristsCount} Terrorists
         </Typography>
       </CardContent>
     </StyledCard>

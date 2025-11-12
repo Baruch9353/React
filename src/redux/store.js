@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+
 import   organizationSlice   from "./features/organizationsSlice";
 import   terroristsSlice   from "./features/terroristsSlice";
 

@@ -1,19 +1,32 @@
-import TerroristsAccordion from "../components/terroristsComponents/TerroristsContainer.jsx";
-import StatusData from "../utils/StatusData.jsx";
-import { selectTerroristsWithOrgs } from "../redux/selectors/selectOrganizationsOfTerrorist.js";
+import { useState } from "react";
+import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 
-export default function TerroristsPage({ organization }) {
-  const terroristsList = useSelector(selectTerroristsWithOrgs);
-  const { loading, error } = useSelector((state) => state.terrorists);
+import StatusData from "../utils/StatusData.jsx";
+import { fetchTerrorists } from "../redux/api/fetchTerrorists.js";
+import TopPageFilter from "../components/TopPage/TopPageFilter.jsx";
+import TerroristsAccordion from "../components/terroristsComponents/TerroristsList.jsx";
 
-  const listToShow = organization?.terroristsList || terroristsList || [];
+export default function TerroristsPage() {
+  const { orgId } = useParams();
+  const { loading, error, allTerroristsList } = useSelector((state) => state.terrorists);
+  const [filtered, setFiltered] = useState(allTerroristsList);
 
   return (
-    <StatusData
-      loading={loading}
-      error={error}
-      content={<TerroristsAccordion terrorists={listToShow} />}
-    />
+    <>
+      <TopPageFilter
+        description="Terrorists"
+        orgId={orgId}
+        fetchFunc={fetchTerrorists}
+        initialData={allTerroristsList}
+        onChange={setFiltered}
+      />
+      <StatusData
+        loading={loading}
+        error={error}
+        content={<TerroristsAccordion terrorists={filtered} />}
+      />
+    </>
   );
 }
+

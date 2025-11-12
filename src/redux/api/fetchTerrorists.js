@@ -1,9 +1,16 @@
-import apiRequest from './apiRequest.js'
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
+import apiRequest from './apiRequest.js'
 
 export const fetchTerrorists = createAsyncThunk(
     "terrorists/fetchTerrorists",
-    async () => await apiRequest("terrorists/getAllTerrorists")
+    async ({ search = ""} = {}) => {
+        let url = `terrorists`;
+        if (search) {
+            url += `/?searchName=${search}`;
+        }
+        return await apiRequest(url, "GET");
+    }
 );
 
 export const fetchTerroristById = createAsyncThunk(
