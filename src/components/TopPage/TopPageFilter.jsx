@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { Box, Typography, TextField } from "@mui/material";
+import { Box, Typography, TextField, Button } from "@mui/material";
 
 export default function TopPageFilter({
   description,
@@ -8,9 +9,15 @@ export default function TopPageFilter({
   fetchFunc,
   initialData,
   onChange,
+  pathClickAdd
 }) {
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleClickAdd = () => {
+    navigate(pathClickAdd);
+  };
 
   function filterByOrg(data) {
     return orgId ? data.filter((ter) => ter.idOfOrganization === orgId) : data;
@@ -44,6 +51,9 @@ export default function TopPageFilter({
         value={search}
         onChange={(event) => setSearch(event.target.value)}
       />
+      <Button onClick={handleClickAdd}>
+        ➕
+      </Button>
     </Box>
   );
 }

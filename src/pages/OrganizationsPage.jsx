@@ -19,6 +19,7 @@ export default function OrganizationsPage() {
         fetchFunc={fetchOrganizations}
         initialData={allOrganizationsList}
         onChange={setFiltered}
+        pathClickAdd="/addOrganization"
       />
       <StatusData
         loading={loading}

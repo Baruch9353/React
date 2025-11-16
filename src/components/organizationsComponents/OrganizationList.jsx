@@ -1,4 +1,5 @@
 import { styled, Container, Grid, Typography } from "@mui/material";
+
 import OrganizationCard from "./OrganizationCard";
 
 const StyledContainer = styled(Container)({

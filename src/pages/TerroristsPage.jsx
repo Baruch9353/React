@@ -20,6 +20,7 @@ export default function TerroristsPage() {
         fetchFunc={fetchTerrorists}
         initialData={allTerroristsList}
         onChange={setFiltered}
+        pathClickAdd="/addTerrorist"
       />
       <StatusData
         loading={loading}

@@ -6,6 +6,6 @@ export function useTerroristsCount( organizationId ) {
     );
 
     return allTerroristsList.filter(
-        (terrorist) => terrorist.idOfOrganization === organizationId
+        (terrorist) => terrorist.idOfOrganization === organizationId && terrorist.status !== "Deceased"
     ).length;
 }

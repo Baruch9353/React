@@ -5,6 +5,7 @@ const StyledBox = styled(Box)({
   alignItems: "center",
   justifyContent: "center",
   height: "100vh",
+  color: "red",
 });
 
 export default function StatusData({ loading, error, content }) {
@@ -17,7 +18,7 @@ export default function StatusData({ loading, error, content }) {
   }
 
   if (error) {
-    return <StyledBox>Error loading data: {error}</StyledBox>;
+    return <StyledBox >Error loading data: {error}</StyledBox>;
   }
 
   return content;

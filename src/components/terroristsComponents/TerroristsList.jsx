@@ -20,7 +20,7 @@ export default function TerroristsList({ terrorists }) {
   return (
     <Grid pl={11} pr={11} pt={5} container spacing={6}>
       {terrorists.map((ter) => (
-        <Grid size={{ xs: 12, md: 6 }} key={ter.id}>
+        <Grid size={{ xs: 12, md: 6 }} key={`${ter.id}-${ter.name}`}>
           <StyledCard onClick={() => setOpenId(ter.id)}>
             <CardContent>
               <Typography>

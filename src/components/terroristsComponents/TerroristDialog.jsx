@@ -4,7 +4,12 @@ import {
   DialogTitle,
   DialogContent,
   Typography,
+  Button
 } from "@mui/material";
+
+import { useNavigate } from "react-router";
+
+import UpdateTerroristForm from "./UpdateTerroristForm";
 
 const StyledDialog = styled(Dialog)({
   "& .MuiDialogTitle-root": {
@@ -18,6 +23,9 @@ const StyledDialog = styled(Dialog)({
 });
 
 export default function TerroristDialog({ open, terrorist, onClose }) {
+
+  const navigate = useNavigate();
+
   return (
     <>
       {terrorist && (
@@ -47,6 +55,7 @@ export default function TerroristDialog({ open, terrorist, onClose }) {
               <strong>Last updated:</strong> {terrorist.lastUpdated}
             </Typography>
           </DialogContent>
+          <Button onClick={() => navigate(`/updateTerrorist/${terrorist.idOfOrganization}/${terrorist.id}`)}>update terrorist ✏️</Button>
         </StyledDialog>
       )}
     </>

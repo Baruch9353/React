@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import { Avatar, Card, CardContent, Typography, styled } from "@mui/material";
+
 import {useTerroristsCount} from "../utils/useTerroristsCount.js";
 
 const StyledCard = styled(Card)({

@@ -11,7 +11,8 @@ export default function OrganizationsTable({ organizations, terrorists }) {
   return (
     <TableContainer
       sx={{
-        backgroundColor: " #d7f4ff76",
+        backgroundColor: " #d7f4ff8b",
+        margin: "1rem 0 0 1rem"
       }}
     >
       <Table>
@@ -19,6 +20,9 @@ export default function OrganizationsTable({ organizations, terrorists }) {
           <TableRow>
             <TableCell>
               <strong>Organization</strong>
+            </TableCell>
+            <TableCell>
+              <strong>Activity years</strong>
             </TableCell>
             <TableCell>
               <strong>Threat level</strong>
@@ -33,6 +37,7 @@ export default function OrganizationsTable({ organizations, terrorists }) {
           {organizations.map((org) => (
             <TableRow key={org.id}>
               <TableCell>{org.name}</TableCell>
+              <TableCell>{org.activityYears}</TableCell>
               <TableCell>{org.threatLevel}</TableCell>
               <TableCell>
                 {
