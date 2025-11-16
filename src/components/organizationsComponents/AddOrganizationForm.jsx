@@ -11,13 +11,16 @@ export default function AddOrganizationForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const { name, threatLevel, activityYears, infoUrl } = event.target;
+    const { name, threatLevel, activityStart, activityEnd, infoUrl } =
+      event.target;
     try {
       await dispatch(
         fetchAddOrganization({
           name: name.value,
           threatLevel: threatLevel.value,
-          activityYears: activityYears.value,
+          activityYears:
+            activityStart.value +
+            (activityEnd.value ? " - " + activityEnd.value : "  -  Present"),
           infoUrl: infoUrl.value,
         })
       ).unwrap();
@@ -54,14 +57,23 @@ export default function AddOrganizationForm() {
       <TextField
         name="threatLevel"
         type="number"
-        label="Threat Level"
+        label="Threat Level (1 - 5)"
         required
+        inputProps={{ min: 1, max: 5 }}
       />
 
       <Typography fontSize="1rem" color="#316743ff">
         Activity Years
       </Typography>
-      <TextField name="activityYears" label="Activity Years" required />
+      <>
+        <TextField
+          name="activityStart"
+          type="month"
+          label="_____From"
+          required
+        />
+        <TextField name="activityEnd" type="month" label="_____To (optional)" />
+      </>
 
       <Typography fontSize="1rem" color="#316743ff">
         Image URL

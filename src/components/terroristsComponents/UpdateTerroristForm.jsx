@@ -27,30 +27,35 @@ export default function UpdateTerroristForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const {
+      organizationId,
       name,
       threatLevel,
       status,
-      activityYears,
+      activityStart,
+      activityEnd,
       intelNote,
       intelConfidence,
-      lastUpdated,
       updatedBy,
     } = event.target;
 
-    const org = allOrganizationsList.find((org) => org.id == orgId);
+    const org = organizationId.value
+      ? allOrganizationsList.find((org) => org.id === organizationId.value)
+      : allOrganizationsList.find((org) => org.id == orgId);
     try {
       await dispatch(
         fetchUpdateTerrorist({
           id: id,
-          idOfOrganization: orgId,
+          idOfOrganization: org.id,
           organizationName: org.name,
           name: name.value,
           threatLevel: threatLevel.value,
           status: status.value,
-          activityYears: activityYears.value,
+          activityYears:
+            activityStart.value +
+            (activityEnd.value ? " - " + activityEnd.value : "  -  Present"),
           intelNote: intelNote.value,
           intelConfidence: intelConfidence.value,
-          lastUpdated: lastUpdated.value,
+          lastUpdated: new Date().toLocaleDateString(),
           updatedBy: updatedBy.value,
         })
       ).unwrap();
@@ -78,6 +83,17 @@ export default function UpdateTerroristForm() {
       </Typography>
 
       <Typography fontSize="1rem" color="#316743ff">
+        Select organization (optional)
+      </Typography>
+      <Select name="organizationId" defaultValue="">
+        {allOrganizationsList.map((org) => (
+          <MenuItem key={org.id} value={org.id}>
+            {org.name}
+          </MenuItem>
+        ))}
+      </Select>
+
+      <Typography fontSize="1rem" color="#316743ff">
         Name
       </Typography>
       <TextField name="name" label="Name" required />
@@ -88,8 +104,9 @@ export default function UpdateTerroristForm() {
       <TextField
         name="threatLevel"
         type="number"
-        label="Threat Level"
+        label="Threat Level (1 - 5)"
         required
+        inputProps={{ min: 1, max: 5 }}
       />
 
       <Typography fontSize="1rem" color="#316743ff">
@@ -106,8 +123,15 @@ export default function UpdateTerroristForm() {
       <Typography fontSize="1rem" color="#316743ff">
         Activity Years
       </Typography>
-      <TextField name="activityYears" label="Activity Years" required />
-
+      <>
+        <TextField
+          name="activityStart"
+          type="month"
+          label="_____From"
+          required
+        />
+        <TextField name="activityEnd" type="month" label="_____To (optional)" />
+      </>
       <Typography fontSize="1rem" color="#316743ff">
         Intel Note
       </Typography>
@@ -123,11 +147,6 @@ export default function UpdateTerroristForm() {
           </MenuItem>
         ))}
       </Select>
-
-      <Typography fontSize="1rem" color="#316743ff">
-        Last Updated
-      </Typography>
-      <TextField name="lastUpdated" label="Last Updated" required />
 
       <Typography fontSize="1rem" color="#316743ff">
         Updated By

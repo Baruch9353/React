@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
@@ -15,6 +16,8 @@ const statuses = ["Active", "Detained", "Deceased", "Unknown"];
 const intelConfidences = ["Low", "Medium", "High"];
 
 export default function AddTerroristForm() {
+  const { orgId } = useParams();
+
   const dispatch = useDispatch();
   const { allOrganizationsList } = useSelector((state) => state.organizations);
 
@@ -23,20 +26,20 @@ export default function AddTerroristForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const {
-      organizationName,
+      organizationId,
       name,
       threatLevel,
       status,
-      activityYears,
+      activityStart,
+      activityEnd,
       intelNote,
       intelConfidence,
-      lastUpdated,
       updatedBy,
     } = event.target;
 
-    const org = allOrganizationsList.find(
-      (org) => org.id === organizationName.value
-    );
+    const org = orgId
+      ? allOrganizationsList.find((org) => org.id === orgId)
+      : allOrganizationsList.find((org) => org.id === organizationId.value);
     try {
       await dispatch(
         fetchAddTerrorist({
@@ -45,10 +48,12 @@ export default function AddTerroristForm() {
           name: name.value,
           threatLevel: threatLevel.value,
           status: status.value,
-          activityYears: activityYears.value,
+          activityYears:
+            activityStart.value +
+            (activityEnd.value ? " - " + activityEnd.value : "  -  Present"),
           intelNote: intelNote.value,
           intelConfidence: intelConfidence.value,
-          lastUpdated: lastUpdated.value,
+          lastUpdated: new Date().toLocaleDateString(),
           updatedBy: updatedBy.value,
         })
       ).unwrap();
@@ -75,16 +80,20 @@ export default function AddTerroristForm() {
         Add a new terrorist
       </Typography>
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Select organization
-      </Typography>
-      <Select name="organizationName" defaultValue="" required>
-        {allOrganizationsList.map((org) => (
-          <MenuItem key={org.id} value={org.id}>
-            {org.name}
-          </MenuItem>
-        ))}
-      </Select>
+      {!orgId && (
+        <>
+          <Typography fontSize="1rem" color="#316743ff">
+            Select organization
+          </Typography>
+          <Select name="organizationId" defaultValue="" required>
+            {allOrganizationsList.map((org) => (
+              <MenuItem key={org.id} value={org.id}>
+                {org.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </>
+      )}
 
       <Typography fontSize="1rem" color="#316743ff">
         Name
@@ -97,8 +106,9 @@ export default function AddTerroristForm() {
       <TextField
         name="threatLevel"
         type="number"
-        label="Threat Level"
+        label="Threat Level (1 - 5)"
         required
+        inputProps={{ min: 1, max: 5 }}
       />
 
       <Typography fontSize="1rem" color="#316743ff">
@@ -115,8 +125,15 @@ export default function AddTerroristForm() {
       <Typography fontSize="1rem" color="#316743ff">
         Activity Years
       </Typography>
-      <TextField name="activityYears" label="Activity Years" required />
-
+      <>
+        <TextField
+          name="activityStart"
+          type="month"
+          label="_____From"
+          required
+        />
+        <TextField name="activityEnd" type="month" label="_____To (optional)" />
+      </>
       <Typography fontSize="1rem" color="#316743ff">
         Intel Note
       </Typography>
@@ -132,11 +149,6 @@ export default function AddTerroristForm() {
           </MenuItem>
         ))}
       </Select>
-
-      <Typography fontSize="1rem" color="#316743ff">
-        Last Updated
-      </Typography>
-      <TextField name="lastUpdated" label="Last Updated" required />
 
       <Typography fontSize="1rem" color="#316743ff">
         Updated By

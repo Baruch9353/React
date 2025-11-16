@@ -25,6 +25,7 @@ export default function App() {
 
         <Route path="/terrorists" element={<TerroristsPage />} />
         <Route path="/addTerrorist" element={<AddTerroristForm />} />
+        <Route path="/addTerrorist/:orgId" element={<AddTerroristForm />} />
         <Route path="/updateTerrorist/:orgId/:id" element={<UpdateTerroristForm />} />
       </Routes>
     </Layout>
