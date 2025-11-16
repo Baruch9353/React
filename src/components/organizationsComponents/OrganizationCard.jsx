@@ -1,7 +1,14 @@
 import { useNavigate } from "react-router";
-import { Avatar, Card, CardContent, Typography, styled } from "@mui/material";
+import {
+  Avatar,
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  styled,
+} from "@mui/material";
 
-import {useTerroristsCount} from "../utils/useTerroristsCount.js";
+import { useTerroristsCount } from "../utils/useTerroristsCount.js";
 
 const StyledCard = styled(Card)({
   cursor: "pointer",
@@ -24,20 +31,29 @@ export default function OrganizationCard({ org }) {
   const terroristsCount = useTerroristsCount(org.id);
 
   return (
-    <StyledCard onClick={() => navigate(`/organization/${org.id}`)}>
-      <CardContent>
+    <StyledCard>
+      <CardContent onClick={() => navigate(`/organization/${org.id}`)}>
         <Typography fontSize="1.8rem" gutterBottom borderBottom={"1px solid "}>
           {org.name}
         </Typography>
-        <StyledAvatar alt={org.name} src={org.infoUrl} variant="rounded" />
+        <StyledAvatar
+          src={org.image || org.infoUrl}
+          alt={org.name}
+          variant="rounded"
+        />
         <Typography fontSize="1.3rem">{org.activityYears}</Typography>
         <Typography fontSize="1.3rem">
           Threat Level: {org.threatLevel}
         </Typography>
-        <Typography fontSize="1.3rem">
-          {terroristsCount} Terrorists
-        </Typography>
+        <Typography fontSize="1.3rem">{terroristsCount} Terrorists</Typography>
       </CardContent>
+      <Button
+        onClick={() => {
+          navigate(`/updateOrganization/${org.id}`);
+        }}
+      >
+        📝
+      </Button>
     </StyledCard>
   );
 }

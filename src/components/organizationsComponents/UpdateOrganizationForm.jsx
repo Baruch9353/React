@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { Box, TextField, Button, Typography } from "@mui/material";
 
-import { fetchAddOrganization } from "../../redux/api/fetchOrganizations";
+import { fetchUpdateOrganization } from "../../redux/api/fetchOrganizations";
 
-export default function AddOrganizationForm() {
+export default function UpdateOrganizationForm() {
+  const { orgId } = useParams();
   const dispatch = useDispatch();
 
   const [feedback, setFeedback] = useState("");
@@ -15,7 +17,8 @@ export default function AddOrganizationForm() {
       event.target;
     try {
       await dispatch(
-        fetchAddOrganization({
+        fetchUpdateOrganization({
+          id: orgId,
           name: name.value,
           threatLevel: threatLevel.value,
           activityYears:
@@ -24,10 +27,10 @@ export default function AddOrganizationForm() {
           infoUrl: infoUrl.value,
         })
       ).unwrap();
-      setFeedback("Organization added successfully!");
+      setFeedback("Organization updated successfully!");
       event.target.reset();
     } catch (err) {
-      setFeedback("Failed to add Organization.");
+      setFeedback("Failed to update Organization.");
     }
   };
   return (
@@ -43,7 +46,7 @@ export default function AddOrganizationForm() {
       }}
     >
       <Typography fontSize="2rem" color="#316743ff">
-        Add a new organization
+        Update organization
       </Typography>
 
       <Typography fontSize="1rem" color="#316743ff">
@@ -78,7 +81,7 @@ export default function AddOrganizationForm() {
       <Typography fontSize="1rem" color="#316743ff">
         Image URL
       </Typography>
-      <TextField name="infoUrl" label="Image URL (optional)"/>
+      <TextField name="infoUrl" label="Image URL (optional)" />
 
       {feedback && (
         <Typography color={feedback.includes("successfully") ? "green" : "red"}>

@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   Box,
   TextField,
@@ -8,8 +10,6 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-
-import { useParams } from "react-router";
 
 import { fetchUpdateTerrorist } from "../../redux/api/fetchTerrorists";
 
