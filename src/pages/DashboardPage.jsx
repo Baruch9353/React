@@ -1,19 +1,14 @@
 import { useSelector } from "react-redux";
 
 import StatusData from "../utils/StatusData.jsx";
+
 import DashboardContent from "../components/dashboard/DashboardContent.jsx";
 
 export default function DashboardPage() {
-  const organizations = useSelector(
-    (state) => state.organizations.allOrganizationsList
-  );
-  const terrorists = useSelector((state) => state.terrorists.allTerroristsList);
-  const loading = useSelector(
-    (state) => state.organizations.loading || state.terrorists.loading
-  );
-  const error = useSelector(
-    (state) => state.organizations.error || state.terrorists.error
-  );
+  const { allOrganizationsList } = useSelector((state) => state.organizations);
+  const { allTerroristsList } = useSelector((state) => state.terrorists);
+  const { loading } = useSelector((state) => state.organizations || state.terrorists);
+  const { error } = useSelector((state) => state.organizations || state.terrorists);
 
   return (
     <StatusData
@@ -21,8 +16,8 @@ export default function DashboardPage() {
       error={error}
       content={
         <DashboardContent
-          organizations={organizations}
-          terrorists={terrorists}
+          organizations={allOrganizationsList}
+          terrorists={allTerroristsList}
         />
       }
     />

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
+
 import { Box, Typography, TextField, Button } from "@mui/material";
 
 export default function TopPageFilter({
@@ -9,7 +10,7 @@ export default function TopPageFilter({
   fetchFunc,
   initialData,
   onChange,
-  pathClickAdd
+  pathClickAdd,
 }) {
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
@@ -46,14 +47,12 @@ export default function TopPageFilter({
     >
       <Typography fontSize="2.5rem">{description}</Typography>
       <TextField
-        sx={{ width: "25rem" }}
+        sx={{ minWidth: "23%", maxWidth: "80%"}}
         label="Search"
         value={search}
         onChange={(event) => setSearch(event.target.value)}
       />
-      <Button onClick={handleClickAdd}>
-        ➕
-      </Button>
+      <Button onClick={handleClickAdd}>➕</Button>
     </Box>
   );
 }

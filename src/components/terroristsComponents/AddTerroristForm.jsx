@@ -71,9 +71,9 @@ export default function AddTerroristForm() {
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifySelf: "center",
         gap: 2,
-        width: 600,
+        width: { xs: "85%", md: "50%" },
+        mx: "auto",
       }}
     >
       <Typography fontSize="2rem" color="#316743ff">
@@ -134,6 +134,7 @@ export default function AddTerroristForm() {
         />
         <TextField name="activityEnd" type="month" label="_____To (optional)" />
       </>
+
       <Typography fontSize="1rem" color="#316743ff">
         Intel Note
       </Typography>

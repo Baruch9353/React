@@ -2,14 +2,18 @@ import { useState } from "react";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 
-import StatusData from "../utils/StatusData.jsx";
 import { fetchTerrorists } from "../redux/api/fetchTerrorists.js";
+
+import StatusData from "../utils/StatusData.jsx";
+
 import TopPageFilter from "../components/TopPage/TopPageFilter.jsx";
 import TerroristsAccordion from "../components/terroristsComponents/TerroristsList.jsx";
 
 export default function TerroristsPage() {
   const { orgId } = useParams();
-  const { loading, error, allTerroristsList } = useSelector((state) => state.terrorists);
+  const { loading, error, allTerroristsList } = useSelector(
+    (state) => state.terrorists
+  );
   const [filtered, setFiltered] = useState(allTerroristsList);
 
   return (
@@ -20,7 +24,7 @@ export default function TerroristsPage() {
         fetchFunc={fetchTerrorists}
         initialData={allTerroristsList}
         onChange={setFiltered}
-        pathClickAdd={`/addTerrorist/${orgId || ''}`}
+        pathClickAdd={`/addTerrorist${orgId ? "/" + orgId : ""}`}
       />
       <StatusData
         loading={loading}
@@ -29,5 +33,4 @@ export default function TerroristsPage() {
       />
     </>
   );
-}
-
+};

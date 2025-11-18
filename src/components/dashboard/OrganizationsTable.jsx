@@ -7,29 +7,29 @@ import {
   TableRow,
 } from "@mui/material";
 
-export default function OrganizationsTable({ organizations, terrorists }) {
+export default function OrganizationsTable({ organizations }) {
+  const columns = [
+    { id: "name", label: "Organization" },
+    { id: "activityYears", label: "Activity years" },
+    { id: "threatLevel", label: "Threat level" },
+    { id: "terroristCount", label: "Total terrorists" },
+  ];
+
   return (
     <TableContainer
       sx={{
         backgroundColor: " #d7f4ff8b",
-        margin: "1rem 0 0 1rem"
+        margin: "1rem",
       }}
     >
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>
-              <strong>Organization</strong>
-            </TableCell>
-            <TableCell>
-              <strong>Activity years</strong>
-            </TableCell>
-            <TableCell>
-              <strong>Threat level</strong>
-            </TableCell>
-            <TableCell>
-              <strong>Total terrorists</strong>
-            </TableCell>
+            {columns.map((col) => (
+              <TableCell key={col.id}>
+                <strong>{col.label}</strong>
+              </TableCell>
+            ))}
           </TableRow>
         </TableHead>
 
@@ -39,13 +39,7 @@ export default function OrganizationsTable({ organizations, terrorists }) {
               <TableCell>{org.name}</TableCell>
               <TableCell>{org.activityYears}</TableCell>
               <TableCell>{org.threatLevel}</TableCell>
-              <TableCell>
-                {
-                  terrorists.filter(
-                    (terrorist) => terrorist.idOfOrganization === org.id
-                  ).length
-                }
-              </TableCell>
+              <TableCell>{org.terroristCount}</TableCell>
             </TableRow>
           ))}
         </TableBody>

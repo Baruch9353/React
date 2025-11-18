@@ -13,7 +13,18 @@ export const organizationSlice = createSlice({
     name: 'organizations',
     initialState,
     reducers: {
+        setTerroristCount(state, action) {
+            const allTerrorists = action.payload;
+
+            state.allOrganizationsList = state.allOrganizationsList.map(org => ({
+                ...org,
+                terroristCount: allTerrorists.filter(
+                    ter => ter.idOfOrganization === org.id && ter.status !== "Deceased"
+                ).length
+            }));
+        }
     },
+
     extraReducers: (builder) => {
         builder
             .addCase(fetchOrganizations.pending, (state) => {
@@ -37,3 +48,4 @@ export const organizationSlice = createSlice({
 })
 
 export default organizationSlice.reducer;
+export const { setTerroristCount } = organizationSlice.actions;

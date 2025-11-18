@@ -10,6 +10,7 @@ const StyledContainer = styled(Container)({
 });
 
 export default function OrganizationList({ organizations }) {
+  
   return (
     <StyledContainer>
       <Grid container spacing={7} justifyContent="center">

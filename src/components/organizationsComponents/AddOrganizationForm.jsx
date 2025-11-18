@@ -30,6 +30,7 @@ export default function AddOrganizationForm() {
       setFeedback("Failed to add Organization.");
     }
   };
+
   return (
     <Box
       component="form"
@@ -37,9 +38,9 @@ export default function AddOrganizationForm() {
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifySelf: "center",
         gap: 2,
-        width: 600,
+        width: { xs: "85%", md: "50%" },
+        mx: "auto",
       }}
     >
       <Typography fontSize="2rem" color="#316743ff">
@@ -78,7 +79,7 @@ export default function AddOrganizationForm() {
       <Typography fontSize="1rem" color="#316743ff">
         Image URL
       </Typography>
-      <TextField name="infoUrl" label="Image URL (optional)"/>
+      <TextField name="infoUrl" label="Image URL (optional)" />
 
       {feedback && (
         <Typography color={feedback.includes("successfully") ? "green" : "red"}>

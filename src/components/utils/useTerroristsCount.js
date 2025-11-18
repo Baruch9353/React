@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 
-export function useTerroristsCount( organizationId ) {
+export function useTerroristsCount(organizationId) {
     const allTerroristsList = useSelector(
         (state) => state.terrorists.allTerroristsList || []
     );
@@ -8,4 +8,4 @@ export function useTerroristsCount( organizationId ) {
     return allTerroristsList.filter(
         (terrorist) => terrorist.idOfOrganization === organizationId && terrorist.status !== "Deceased"
     ).length;
-}
+};

@@ -28,7 +28,8 @@ const StyledAvatar = styled(Avatar)({
 
 export default function OrganizationCard({ org }) {
   const navigate = useNavigate();
-  const terroristsCount = useTerroristsCount(org.id);
+  
+  const terroristCount = useTerroristsCount(org.id);
 
   return (
     <StyledCard>
@@ -45,7 +46,7 @@ export default function OrganizationCard({ org }) {
         <Typography fontSize="1.3rem">
           Threat Level: {org.threatLevel}
         </Typography>
-        <Typography fontSize="1.3rem">{terroristsCount} Terrorists</Typography>
+        <Typography fontSize="1.3rem">{org.terroristCount || terroristCount} Terrorists</Typography>
       </CardContent>
       <Button
         onClick={() => {

@@ -33,6 +33,7 @@ export default function UpdateOrganizationForm() {
       setFeedback("Failed to update Organization.");
     }
   };
+
   return (
     <Box
       component="form"
@@ -40,9 +41,9 @@ export default function UpdateOrganizationForm() {
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifySelf: "center",
         gap: 2,
-        width: 600,
+        width: { xs: "85%", md: "50%" },
+        mx: "auto",
       }}
     >
       <Typography fontSize="2rem" color="#316743ff">

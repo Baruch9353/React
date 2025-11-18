@@ -1,4 +1,4 @@
-import { Box, Typography, Paper } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import OrganizationsTable from "./OrganizationsTable";
 
@@ -35,8 +35,7 @@ export default function DashboardContent({ organizations, terrorists }) {
 
       <OrganizationsTable
         organizations={organizations}
-        terrorists={terrorists}
       />
     </Box>
   );
-}
+};
