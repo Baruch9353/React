@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import {
   Table,
   TableBody,
@@ -10,6 +11,8 @@ import {
 } from "@mui/material";
 
 export default function OrganizationsTable({ organizations }) {
+  const navigate = useNavigate();
+
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("name");
 
@@ -32,7 +35,7 @@ export default function OrganizationsTable({ organizations }) {
   const sortedOrgs = [...organizations].sort((a, b) => {
     const result = a[orderBy] > b[orderBy] ? 1 : -1;
     return order === "asc" ? result : -result;
-  })
+  });
 
   return (
     <TableContainer
@@ -60,7 +63,16 @@ export default function OrganizationsTable({ organizations }) {
 
         <TableBody>
           {sortedOrgs.map((org) => (
-            <TableRow key={org.id}>
+            <TableRow
+              sx={{
+                cursor: "pointer",
+                "&:hover": {
+                  backgroundColor: " #d7f4ffff",
+                },
+              }}
+              key={org.id}
+              onClick={() => navigate(`/organization/${org.id}`)}
+            >
               {columns.map((col) => (
                 <TableCell key={col.id}>{org[col.id]}</TableCell>
               ))}
