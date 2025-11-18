@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -5,15 +6,33 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TableSortLabel,
 } from "@mui/material";
 
 export default function OrganizationsTable({ organizations }) {
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("name");
+
   const columns = [
     { id: "name", label: "Organization" },
     { id: "activityYears", label: "Activity years" },
     { id: "threatLevel", label: "Threat level" },
     { id: "terroristCount", label: "Total terrorists" },
   ];
+
+  const handleSort = (column) => {
+    if (orderBy === column) {
+      setOrder(order === "asc" ? "desc" : "asc");
+    } else {
+      setOrderBy(column);
+      setOrder("asc");
+    }
+  };
+
+  const sortedOrgs = [...organizations].sort((a, b) => {
+    const result = a[orderBy] > b[orderBy] ? 1 : -1;
+    return order === "asc" ? result : -result;
+  })
 
   return (
     <TableContainer
@@ -27,19 +46,24 @@ export default function OrganizationsTable({ organizations }) {
           <TableRow>
             {columns.map((col) => (
               <TableCell key={col.id}>
-                <strong>{col.label}</strong>
+                <TableSortLabel
+                  active={orderBy === col.id}
+                  direction={orderBy === col.id ? order : "asc"}
+                  onClick={() => handleSort(col.id)}
+                >
+                  <strong>{col.label}</strong>
+                </TableSortLabel>
               </TableCell>
             ))}
           </TableRow>
         </TableHead>
 
         <TableBody>
-          {organizations.map((org) => (
+          {sortedOrgs.map((org) => (
             <TableRow key={org.id}>
-              <TableCell>{org.name}</TableCell>
-              <TableCell>{org.activityYears}</TableCell>
-              <TableCell>{org.threatLevel}</TableCell>
-              <TableCell>{org.terroristCount}</TableCell>
+              {columns.map((col) => (
+                <TableCell key={col.id}>{org[col.id]}</TableCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>

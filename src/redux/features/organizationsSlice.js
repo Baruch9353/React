@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { fetchOrganizations } from "../api/fetchOrganizations";
+import { fetchAddOrganization, fetchOrganizations, fetchUpdateOrganization } from "../api/fetchOrganizations";
 
 const initialState = {
     organizationsList: [],
@@ -43,9 +43,19 @@ export const organizationSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message;
             })
-
-    }
-})
+            .addCase(fetchAddOrganization.fulfilled, (state, action) => {
+                const newOrganization = action.payload;
+                state.allOrganizationsList.push(newOrganization)
+            })
+            .addCase(fetchUpdateOrganization.fulfilled, (state, action) => {
+                const updatedOrganization = action.payload;
+                const index = state.allOrganizationsList.findIndex(
+                    (terrorist) => terrorist.id === updatedOrganization.id
+                );
+                state.allOrganizationsList[index] = updatedOrganization;
+            });
+    },
+});
 
 export default organizationSlice.reducer;
 export const { setTerroristCount } = organizationSlice.actions;
