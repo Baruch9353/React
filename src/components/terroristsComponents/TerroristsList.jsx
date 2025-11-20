@@ -22,7 +22,7 @@ export default function TerroristsList({ terrorists }) {
       {terrorists.map((ter) => (
         <Grid size={{ xs: 12, md: 6 }} key={`${ter.id}-${ter.name}`}>
           <StyledCard onClick={() => setOpenId(ter.id)} status={ter.status}>
-            <CardContent sx={{}}>
+            <CardContent>
               <Typography>
                 <strong>{ter.name}</strong>
               </Typography>

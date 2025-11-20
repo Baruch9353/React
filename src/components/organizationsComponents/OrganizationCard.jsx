@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   Typography,
-  Button,
   styled,
 } from "@mui/material";
 
@@ -19,7 +18,7 @@ const StyledCard = styled(Card)({
   borderRadius: "1rem",
   boxShadow: "0 4px 8px rgba(1, 1, 1, 0.7)",
 });
-const StyledAvatar = styled(Avatar)({
+export const StyledAvatar = styled(Avatar)({
   justifySelf: "center",
   width: "5rem",
   height: "3rem",
@@ -28,7 +27,7 @@ const StyledAvatar = styled(Avatar)({
 
 export default function OrganizationCard({ org }) {
   const navigate = useNavigate();
-  
+
   const terroristCount = useTerroristsCount(org.id);
 
   return (
@@ -46,15 +45,10 @@ export default function OrganizationCard({ org }) {
         <Typography fontSize="1.3rem">
           Threat Level: {org.threatLevel}
         </Typography>
-        <Typography fontSize="1.3rem">{org.terroristCount || terroristCount} Terrorists</Typography>
+        <Typography fontSize="1.3rem">
+          {org.terroristCount || terroristCount} Terrorists
+        </Typography>
       </CardContent>
-      <Button
-        onClick={() => {
-          navigate(`/updateOrganization/${org.id}`);
-        }}
-      >
-        📝
-      </Button>
     </StyledCard>
   );
 }

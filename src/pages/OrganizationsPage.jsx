@@ -3,13 +3,15 @@ import { useSelector } from "react-redux";
 
 import { fetchOrganizations } from "../redux/api/fetchOrganizations.js";
 
-import StatusData from "../utils/StatusData.jsx";
+import StatusData from "../initData/StatusData.jsx";
 
 import TopPageFilter from "../components/TopPage/TopPageFilter.jsx";
 import OrganizationsList from "../components/organizationsComponents/OrganizationList.jsx";
 
 export default function OrganizationsPage() {
-  const { loading, error, allOrganizationsList } = useSelector((state) => state.organizations);
+  const { loading, error, allOrganizationsList } = useSelector(
+    (state) => state.organizations
+  );
   const [filtered, setFiltered] = useState(allOrganizationsList);
 
   return (

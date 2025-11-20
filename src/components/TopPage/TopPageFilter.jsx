@@ -3,10 +3,11 @@ import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 
 import { Box, Typography, TextField, Button } from "@mui/material";
+import { StyledAvatar } from "../organizationsComponents/OrganizationCard";
 
 export default function TopPageFilter({
   description,
-  orgId,
+  org,
   fetchFunc,
   initialData,
   onChange,
@@ -20,8 +21,13 @@ export default function TopPageFilter({
     navigate(pathClickAdd);
   };
 
+  
+  const handleClickUpdate = () => {
+    navigate(`/updateOrganization/${org.id}`);
+  };
+
   function filterByOrg(data) {
-    return orgId ? data.filter((ter) => ter.idOfOrganization === orgId) : data;
+    return org ? data.filter((ter) => ter.idOfOrganization === org.id) : data;
   }
 
   async function fetchSearchAndFilter() {
@@ -35,7 +41,7 @@ export default function TopPageFilter({
     } else {
       fetchSearchAndFilter();
     }
-  }, [search, orgId, initialData, onChange]);
+  }, [search, org, initialData, onChange]);
 
   return (
     <Box
@@ -45,13 +51,28 @@ export default function TopPageFilter({
       justifyContent="space-around"
       padding="0 3rem 0 5rem"
     >
+      {org && (
+        <StyledAvatar
+          src={org.image || org.infoUrl}
+          alt={org.name}
+          variant="rounded"
+          sx={{ mr: "2rem" }}
+        />
+      )}
+
       <Typography fontSize="2.5rem">{description}</Typography>
+
       <TextField
-        sx={{ minWidth: "23%", maxWidth: "80%"}}
+        sx={{ minWidth: "23%", maxWidth: "80%" }}
         label="Search"
         value={search}
         onChange={(event) => setSearch(event.target.value)}
       />
+
+      {org && (
+        <Button onClick={handleClickUpdate}>✏️</Button>
+      )}
+
       <Button onClick={handleClickAdd}>➕</Button>
     </Box>
   );

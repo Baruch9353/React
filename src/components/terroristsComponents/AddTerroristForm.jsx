@@ -6,7 +6,6 @@ import {
   TextField,
   Button,
   MenuItem,
-  Select,
   Typography,
 } from "@mui/material";
 
@@ -20,6 +19,9 @@ export default function AddTerroristForm() {
 
   const dispatch = useDispatch();
   const { allOrganizationsList } = useSelector((state) => state.organizations);
+  const isOrg = orgId
+    ? allOrganizationsList.find((org) => org.id === orgId)
+    : null;
 
   const [feedback, setFeedback] = useState("");
 
@@ -37,8 +39,8 @@ export default function AddTerroristForm() {
       updatedBy,
     } = event.target;
 
-    const org = orgId
-      ? allOrganizationsList.find((org) => org.id === orgId)
+    const org = isOrg
+      ? isOrg
       : allOrganizationsList.find((org) => org.id === organizationId.value);
     try {
       await dispatch(
@@ -77,32 +79,29 @@ export default function AddTerroristForm() {
       }}
     >
       <Typography fontSize="2rem" color="#316743ff">
-        Add a new terrorist
+        Add a new terrorist {orgId && `to ${isOrg?.name} organization`}
       </Typography>
 
       {!orgId && (
         <>
-          <Typography fontSize="1rem" color="#316743ff">
-            Select organization
-          </Typography>
-          <Select name="organizationId" defaultValue="" required>
+          <TextField
+            select
+            name="organizationId"
+            label="Select organization"
+            defaultValue=""
+            required
+          >
             {allOrganizationsList.map((org) => (
               <MenuItem key={org.id} value={org.id}>
                 {org.name}
               </MenuItem>
             ))}
-          </Select>
+          </TextField>
         </>
       )}
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Name
-      </Typography>
       <TextField name="name" label="Name" required />
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Threat Level
-      </Typography>
       <TextField
         name="threatLevel"
         type="number"
@@ -111,49 +110,48 @@ export default function AddTerroristForm() {
         inputProps={{ min: 1, max: 5 }}
       />
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Select status
-      </Typography>
-      <Select name="status" defaultValue="" required>
+      <TextField select name="status" label="Status" defaultValue="" required>
         {statuses.map((status) => (
           <MenuItem key={status} value={status}>
             {status}
           </MenuItem>
         ))}
-      </Select>
+      </TextField>
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Activity Years
-      </Typography>
       <>
         <TextField
           name="activityStart"
           type="month"
           label="_____From"
+          helperText="Activity Years"
+          variant="filled"
           required
         />
-        <TextField name="activityEnd" type="month" label="_____To (optional)" />
+        <TextField
+          name="activityEnd"
+          type="month"
+          label="_____To (optional, leave empty for Present)"
+          helperText="Activity Years (leave empty for Present)"
+          variant="filled"
+        />
       </>
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Intel Note
-      </Typography>
       <TextField name="intelNote" label="Intel Note" required />
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Intel Confidence
-      </Typography>
-      <Select name="intelConfidence" defaultValue="" required>
+      <TextField
+        select
+        name="intelConfidence"
+        label="Intel Confidence"
+        defaultValue=""
+        required
+      >
         {intelConfidences.map((confidenceLevel) => (
           <MenuItem key={confidenceLevel} value={confidenceLevel}>
             {confidenceLevel}
           </MenuItem>
         ))}
-      </Select>
+      </TextField>
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Updated By
-      </Typography>
       <TextField name="updatedBy" label="Updated By" required />
 
       {feedback && (

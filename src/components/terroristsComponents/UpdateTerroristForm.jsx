@@ -1,15 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  Box,
-  TextField,
-  Button,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
+import { Box, TextField, Button, MenuItem, Typography } from "@mui/material";
 
 import { fetchUpdateTerrorist } from "../../redux/api/fetchTerrorists";
 
@@ -18,49 +11,71 @@ const intelConfidences = ["Low", "Medium", "High"];
 
 export default function UpdateTerroristForm() {
   const { orgId, id } = useParams();
-
   const dispatch = useDispatch();
+
   const { allOrganizationsList } = useSelector((state) => state.organizations);
+  const { allTerroristsList } = useSelector((state) => state.terrorists);
+  const ter = allTerroristsList?.find((ter) => ter.id === id);
 
   const [feedback, setFeedback] = useState("");
 
+  const [formData, setFormData] = useState({
+    idOfOrganization: "",
+    name: "",
+    threatLevel: 4,
+    status: "Unknown",
+    activityStart: "",
+    activityEnd: "",
+    intelNote: "",
+    intelConfidence: "Medium",
+    updatedBy: "",
+  });
+
+  useEffect(() => {
+    if (ter)
+      setFormData({
+        idOfOrganization: orgId,
+        name: ter.name,
+        threatLevel: ter.threatLevel,
+        status: ter.status,
+        activityStart: "",
+        activityEnd: "",
+        intelNote: ter.intelNote,
+        intelConfidence: ter.intelConfidence,
+        updatedBy: ter.updatedBy,
+      });
+  }, [ter]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const {
-      organizationId,
-      name,
-      threatLevel,
-      status,
-      activityStart,
-      activityEnd,
-      intelNote,
-      intelConfidence,
-      updatedBy,
-    } = event.target;
 
-    const org = organizationId.value
-      ? allOrganizationsList.find((org) => org.id === organizationId.value)
-      : allOrganizationsList.find((org) => org.id == orgId);
+    const selectedOrg = allOrganizationsList.find(
+      (org) => org.id === formData.idOfOrganization
+    );
+
+    const activityYears =
+      formData.activityStart +
+      (formData.activityEnd ? " - " + formData.activityEnd : " - Present");
+
+    const terrorist = {
+      ...formData,
+      id,
+      organizationName: selectedOrg?.name,
+      activityYears,
+      lastUpdated: new Date().toLocaleDateString(),
+    };
+
     try {
-      await dispatch(
-        fetchUpdateTerrorist({
-          id: id,
-          idOfOrganization: org.id,
-          organizationName: org.name,
-          name: name.value,
-          threatLevel: threatLevel.value,
-          status: status.value,
-          activityYears:
-            activityStart.value +
-            (activityEnd.value ? " - " + activityEnd.value : "  -  Present"),
-          intelNote: intelNote.value,
-          intelConfidence: intelConfidence.value,
-          lastUpdated: new Date().toLocaleDateString(),
-          updatedBy: updatedBy.value,
-        })
-      ).unwrap();
+      await dispatch(fetchUpdateTerrorist(terrorist)).unwrap();
       setFeedback("Terrorist updated successfully!");
-      event.target.reset();
     } catch (err) {
       setFeedback("Failed to update terrorist.");
     }
@@ -79,88 +94,119 @@ export default function UpdateTerroristForm() {
       }}
     >
       <Typography fontSize="2rem" color="#316743ff">
-        Update terrorist
+        Update terrorist - {formData.name}
       </Typography>
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Select organization (optional)
-      </Typography>
-      <Select name="organizationId" defaultValue="">
+      <TextField
+        select
+        name="idOfOrganization"
+        label="Select organization (optional)"
+        value={formData.idOfOrganization}
+        onChange={handleChange}
+      >
         {allOrganizationsList.map((org) => (
           <MenuItem key={org.id} value={org.id}>
             {org.name}
           </MenuItem>
         ))}
-      </Select>
+      </TextField>
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Name
-      </Typography>
-      <TextField name="name" label="Name" required />
+      <TextField
+        name="name"
+        label="Name"
+        value={formData.name}
+        onChange={handleChange}
+        required
+      />
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Threat Level
-      </Typography>
       <TextField
         name="threatLevel"
-        type="number"
         label="Threat Level (1 - 5)"
+        type="number"
+        value={formData.threatLevel}
+        onChange={handleChange}
         required
         inputProps={{ min: 1, max: 5 }}
       />
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Select status
-      </Typography>
-      <Select name="status" defaultValue="" required>
+      <TextField
+        select
+        name="status"
+        label="Status"
+        value={formData.status}
+        onChange={handleChange}
+        required
+      >
         {statuses.map((status) => (
           <MenuItem key={status} value={status}>
             {status}
           </MenuItem>
         ))}
-      </Select>
+      </TextField>
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Activity Years
-      </Typography>
-      <>
-        <TextField
-          name="activityStart"
-          type="month"
-          label="_____From"
-          required
-        />
-        <TextField name="activityEnd" type="month" label="_____To (optional)" />
-      </>
-      <Typography fontSize="1rem" color="#316743ff">
-        Intel Note
-      </Typography>
-      <TextField name="intelNote" label="Intel Note" required />
+      <TextField
+        name="activityStart"
+        value={formData.activityStart}
+        onChange={handleChange}
+        type="month"
+        label="____From"
+        helperText="Activity start date"
+        variant="filled"
+        required
+      />
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Intel Confidence
-      </Typography>
-      <Select name="intelConfidence" defaultValue="" required>
-        {intelConfidences.map((confidenceLevel) => (
-          <MenuItem key={confidenceLevel} value={confidenceLevel}>
-            {confidenceLevel}
+      <TextField
+        name="activityEnd"
+        value={formData.activityEnd}
+        onChange={handleChange}
+        type="month"
+        label="____To (optional)"
+        helperText="Leave empty for Present"
+        variant="filled"
+      />
+
+      <TextField
+        name="intelNote"
+        value={formData.intelNote}
+        label="Intel Note"
+        onChange={handleChange}
+        required
+      />
+
+      <TextField
+        select
+        name="intelConfidence"
+        label="Intel Confidence"
+        value={formData.intelConfidence}
+        onChange={handleChange}
+        required
+      >
+        {intelConfidences.map((level) => (
+          <MenuItem key={level} value={level}>
+            {level}
           </MenuItem>
         ))}
-      </Select>
+      </TextField>
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Updated By
-      </Typography>
-      <TextField name="updatedBy" label="Updated By" required />
+      <TextField
+        name="updatedBy"
+        label="Updated By"
+        value={formData.updatedBy}
+        onChange={handleChange}
+        required
+      />
 
       {feedback && (
-        <Typography color={feedback.includes("successfully") ? "green" : "red"}>
+        <Typography
+          sx={{ backgroundColor: " #84d1ed67" }}
+          color={feedback.includes("successfully") ? "green" : "red"}
+        >
           {feedback}
         </Typography>
       )}
 
-      <Button type="submit" variant="outlined">
-        Submit
+      <Button id="submit" type="submit" variant="outlined">
+        Update terrorist
       </Button>
     </Box>
   );

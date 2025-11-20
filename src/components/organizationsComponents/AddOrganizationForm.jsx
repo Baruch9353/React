@@ -47,14 +47,8 @@ export default function AddOrganizationForm() {
         Add a new organization
       </Typography>
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Name
-      </Typography>
       <TextField name="name" label="Name" required />
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Threat Level
-      </Typography>
       <TextField
         name="threatLevel"
         type="number"
@@ -63,22 +57,24 @@ export default function AddOrganizationForm() {
         inputProps={{ min: 1, max: 5 }}
       />
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Activity Years
-      </Typography>
       <>
         <TextField
           name="activityStart"
           type="month"
           label="_____From"
+          helperText="Activity Years"
+          variant="filled"
           required
         />
-        <TextField name="activityEnd" type="month" label="_____To (optional)" />
+        <TextField
+          name="activityEnd"
+          type="month"
+          label="_____To (optional, leave empty for Present)"
+          helperText="Activity Years (leave empty for Present)"
+          variant="filled"
+        />
       </>
 
-      <Typography fontSize="1rem" color="#316743ff">
-        Image URL
-      </Typography>
       <TextField name="infoUrl" label="Image URL (optional)" />
 
       {feedback && (

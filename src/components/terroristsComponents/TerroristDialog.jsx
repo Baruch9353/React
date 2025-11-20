@@ -23,6 +23,15 @@ const StyledDialog = styled(Dialog)({
 export default function TerroristDialog({ open, terrorist, onClose }) {
   const navigate = useNavigate();
 
+  const dialogs = [
+    { label: "Threat Level", value: terrorist.threatLevel },
+    { label: "Activity years", value: terrorist.activityYears },
+    { label: "Status", value: terrorist.status },
+    { label: "Intel note", value: terrorist.intelNote },
+    { label: "Updated by", value: terrorist.updatedBy },
+    { label: "Last updated", value: terrorist.lastUpdated },
+  ];
+
   return (
     <>
       {terrorist && (
@@ -32,26 +41,15 @@ export default function TerroristDialog({ open, terrorist, onClose }) {
               {terrorist.name} ➡️ {terrorist.organizationName}
             </strong>
           </DialogTitle>
+
           <DialogContent dividers>
-            <Typography>
-              <strong>Threat Level:</strong> {terrorist.threatLevel}
-            </Typography>
-            <Typography>
-              <strong>Activity years:</strong> {terrorist.activityYears}
-            </Typography>
-            <Typography>
-              <strong>Status:</strong> {terrorist.status}
-            </Typography>
-            <Typography>
-              <strong>Intel note:</strong> {terrorist.intelNote}
-            </Typography>
-            <Typography>
-              <strong>Updated by:</strong> {terrorist.updatedBy}
-            </Typography>
-            <Typography>
-              <strong>Last updated:</strong> {terrorist.lastUpdated}
-            </Typography>
+            {dialogs.map((dialog) => (
+              <Typography key={dialog.label}>
+                <strong>{dialog.label}:</strong> {dialog.value}
+              </Typography>
+            ))}
           </DialogContent>
+
           <Button
             onClick={() =>
               navigate(
