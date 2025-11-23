@@ -25,7 +25,10 @@ export default function TerroristDialog({ open, terrorist, onClose }) {
 
   const dialogs = [
     { label: "Threat Level", value: terrorist.threatLevel },
-    { label: "Activity years", value: terrorist.activityYears },
+    {
+      label: "Activity Years",
+      value: terrorist.activityStart + terrorist.activityEnd,
+    },
     { label: "Status", value: terrorist.status },
     { label: "Intel note", value: terrorist.intelNote },
     { label: "Updated by", value: terrorist.updatedBy },

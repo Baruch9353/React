@@ -16,7 +16,7 @@ export default function UpdateOrganizationForm() {
 
   const [formData, setFormData] = useState({
     name: "",
-    threatLevel: 4,
+    threatLevel: "4",
     activityStart: "",
     activityEnd: "",
     infoUrl: "",
@@ -27,14 +27,15 @@ export default function UpdateOrganizationForm() {
       setFormData({
         name: org.name,
         threatLevel: org.threatLevel,
-        activityStart: "",
-        activityEnd: "",
+        activityStart: org.activityStart,
+        activityEnd: org.activityEnd,
         infoUrl: org.infoUrl || "",
       });
   }, [org]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -44,15 +45,11 @@ export default function UpdateOrganizationForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const activityYears =
-      formData.activityStart +
-      (formData.activityEnd ? " - " + formData.activityEnd : " - Present");
-
     const organization = {
       ...formData,
+      activityEnd:
+      formData.activityEnd === "" ? " - Present" : formData.activityEnd,
       id: orgId,
-      activityYears,
-      lastUpdated: new Date().toLocaleDateString(),
     };
 
     try {
@@ -60,7 +57,7 @@ export default function UpdateOrganizationForm() {
       setFeedback("Organization updated successfully!");
       event.target.reset();
     } catch (err) {
-      setFeedback("Failed to update Organization.");
+      setFeedback("Failed to update Organization. " + err);
     }
   };
 

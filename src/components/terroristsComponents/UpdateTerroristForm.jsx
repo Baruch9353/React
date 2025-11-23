@@ -22,7 +22,7 @@ export default function UpdateTerroristForm() {
   const [formData, setFormData] = useState({
     idOfOrganization: "",
     name: "",
-    threatLevel: 4,
+    threatLevel: "4",
     status: "Unknown",
     activityStart: "",
     activityEnd: "",
@@ -38,8 +38,8 @@ export default function UpdateTerroristForm() {
         name: ter.name,
         threatLevel: ter.threatLevel,
         status: ter.status,
-        activityStart: "",
-        activityEnd: "",
+        activityStart: ter.activityStart,
+        activityEnd: ter.activityEnd,
         intelNote: ter.intelNote,
         intelConfidence: ter.intelConfidence,
         updatedBy: ter.updatedBy,
@@ -48,6 +48,7 @@ export default function UpdateTerroristForm() {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -61,15 +62,12 @@ export default function UpdateTerroristForm() {
       (org) => org.id === formData.idOfOrganization
     );
 
-    const activityYears =
-      formData.activityStart +
-      (formData.activityEnd ? " - " + formData.activityEnd : " - Present");
-
     const terrorist = {
       ...formData,
       id,
+      activityEnd:
+        formData.activityEnd === "" ? " - Present" : " " + formData.activityEnd,
       organizationName: selectedOrg?.name,
-      activityYears,
       lastUpdated: new Date().toLocaleDateString(),
     };
 
@@ -105,7 +103,7 @@ export default function UpdateTerroristForm() {
         onChange={handleChange}
       >
         {allOrganizationsList.map((org) => (
-          <MenuItem key={org.id} value={org.id}>
+          <MenuItem key={org.id} value={org?.id}>
             {org.name}
           </MenuItem>
         ))}
@@ -157,7 +155,9 @@ export default function UpdateTerroristForm() {
 
       <TextField
         name="activityEnd"
-        value={formData.activityEnd}
+        value={
+          formData.activityEnd === " - Present" ? "" : formData.activityEnd
+        }
         onChange={handleChange}
         type="month"
         label="____To (optional)"
@@ -205,7 +205,7 @@ export default function UpdateTerroristForm() {
         </Typography>
       )}
 
-      <Button id="submit" type="submit" variant="outlined">
+      <Button type="submit" variant="outlined">
         Update terrorist
       </Button>
     </Box>

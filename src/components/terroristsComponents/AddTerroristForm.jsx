@@ -1,13 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Box,
-  TextField,
-  Button,
-  MenuItem,
-  Typography,
-} from "@mui/material";
+import { Box, TextField, Button, MenuItem, Typography } from "@mui/material";
 
 import { fetchAddTerrorist } from "../../redux/api/fetchTerrorists";
 
@@ -19,48 +13,58 @@ export default function AddTerroristForm() {
 
   const dispatch = useDispatch();
   const { allOrganizationsList } = useSelector((state) => state.organizations);
+
   const isOrg = orgId
     ? allOrganizationsList.find((org) => org.id === orgId)
     : null;
 
   const [feedback, setFeedback] = useState("");
 
+  const [formData, setFormData] = useState({
+    idOfOrganization: "",
+    name: "",
+    threatLevel: "4",
+    status: "Unknown",
+    activityStart: "",
+    activityEnd: "",
+    intelNote: "",
+    intelConfidence: "Medium",
+    updatedBy: "",
+  });
+
+  useEffect(() => {
+    if (orgId) {
+      setFormData((prev) => ({ ...prev, idOfOrganization: orgId }));
+    }
+  }, [orgId]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const {
-      organizationId,
-      name,
-      threatLevel,
-      status,
-      activityStart,
-      activityEnd,
-      intelNote,
-      intelConfidence,
-      updatedBy,
-    } = event.target;
 
-    const org = isOrg
-      ? isOrg
-      : allOrganizationsList.find((org) => org.id === organizationId.value);
+    const selectedOrg = allOrganizationsList.find(
+      (org) => org.id === formData.idOfOrganization
+    );
+
+    const terrorist = {
+      ...formData,
+      activityEnd:
+        formData.activityEnd === "" ? " - Present" : " " + formData.activityEnd,
+      organizationName: selectedOrg?.name,
+      lastUpdated: new Date().toLocaleDateString(),
+    };
+
     try {
-      await dispatch(
-        fetchAddTerrorist({
-          idOfOrganization: org.id,
-          organizationName: org.name,
-          name: name.value,
-          threatLevel: threatLevel.value,
-          status: status.value,
-          activityYears:
-            activityStart.value +
-            (activityEnd.value ? " - " + activityEnd.value : "  -  Present"),
-          intelNote: intelNote.value,
-          intelConfidence: intelConfidence.value,
-          lastUpdated: new Date().toLocaleDateString(),
-          updatedBy: updatedBy.value,
-        })
-      ).unwrap();
+      await dispatch(fetchAddTerrorist(terrorist)).unwrap();
       setFeedback("Terrorist added successfully!");
-      event.target.reset();
     } catch (err) {
       setFeedback("Failed to add terrorist.");
     }
@@ -86,10 +90,10 @@ export default function AddTerroristForm() {
         <>
           <TextField
             select
-            name="organizationId"
+            name="idOfOrganization"
             label="Select organization"
-            defaultValue=""
-            required
+            value={formData.idOfOrganization}
+            onChange={handleChange}
           >
             {allOrganizationsList.map((org) => (
               <MenuItem key={org.id} value={org.id}>
@@ -100,17 +104,32 @@ export default function AddTerroristForm() {
         </>
       )}
 
-      <TextField name="name" label="Name" required />
+      <TextField
+        name="name"
+        label="Name"
+        value={formData.name}
+        onChange={handleChange}
+        required
+      />
 
       <TextField
         name="threatLevel"
-        type="number"
         label="Threat Level (1 - 5)"
+        type="number"
+        value={formData.threatLevel}
+        onChange={handleChange}
         required
         inputProps={{ min: 1, max: 5 }}
       />
 
-      <TextField select name="status" label="Status" defaultValue="" required>
+      <TextField
+        select
+        name="status"
+        label="Status"
+        value={formData.status}
+        onChange={handleChange}
+        required
+      >
         {statuses.map((status) => (
           <MenuItem key={status} value={status}>
             {status}
@@ -118,49 +137,71 @@ export default function AddTerroristForm() {
         ))}
       </TextField>
 
-      <>
-        <TextField
-          name="activityStart"
-          type="month"
-          label="_____From"
-          helperText="Activity Years"
-          variant="filled"
-          required
-        />
-        <TextField
-          name="activityEnd"
-          type="month"
-          label="_____To (optional, leave empty for Present)"
-          helperText="Activity Years (leave empty for Present)"
-          variant="filled"
-        />
-      </>
+      <TextField
+        name="activityStart"
+        value={formData.activityStart}
+        onChange={handleChange}
+        type="month"
+        label="____From"
+        helperText="Activity start date"
+        variant="filled"
+        required
+      />
 
-      <TextField name="intelNote" label="Intel Note" required />
+      <TextField
+        name="activityEnd"
+        value={
+          formData.activityEnd === " - Present" ? "" : formData.activityEnd
+        }
+        onChange={handleChange}
+        type="month"
+        label="____To (optional)"
+        helperText="Leave empty for Present"
+        variant="filled"
+      />
+
+      <TextField
+        name="intelNote"
+        value={formData.intelNote}
+        label="Intel Note"
+        onChange={handleChange}
+        required
+      />
 
       <TextField
         select
         name="intelConfidence"
         label="Intel Confidence"
-        defaultValue=""
+        value={formData.intelConfidence}
+        onChange={handleChange}
         required
       >
-        {intelConfidences.map((confidenceLevel) => (
-          <MenuItem key={confidenceLevel} value={confidenceLevel}>
-            {confidenceLevel}
+        {intelConfidences.map((level) => (
+          <MenuItem key={level} value={level}>
+            {level}
           </MenuItem>
         ))}
       </TextField>
 
-      <TextField name="updatedBy" label="Updated By" required />
+      <TextField
+        name="updatedBy"
+        label="Updated By"
+        value={formData.updatedBy}
+        onChange={handleChange}
+        required
+      />
 
       {feedback && (
-        <Typography color={feedback.includes("successfully") ? "green" : "red"}>
+        <Typography
+          sx={{ backgroundColor: " #84d1ed67" }}
+          color={feedback.includes("successfully") ? "green" : "red"}
+        >
           {feedback}
         </Typography>
       )}
+
       <Button type="submit" variant="outlined">
-        Submit
+        Add terrorist
       </Button>
     </Box>
   );

@@ -41,7 +41,7 @@ export default function OrganizationCard({ org }) {
           alt={org.name}
           variant="rounded"
         />
-        <Typography fontSize="1.3rem">{org.activityYears}</Typography>
+        <Typography fontSize="1.3rem">{org.activityStart + org.activityEnd}</Typography>
         <Typography fontSize="1.3rem">
           Threat Level: {org.threatLevel}
         </Typography>
