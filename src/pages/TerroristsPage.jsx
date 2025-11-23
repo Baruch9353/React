@@ -4,17 +4,19 @@ import { useSelector } from "react-redux";
 
 import { fetchTerrorists } from "../redux/api/fetchTerrorists.js";
 
-import StatusData from "../initData/StatusData.jsx";
+import StatusData from "../components/initData/StatusData.jsx";
 
 import TopPageFilter from "../components/TopPage/TopPageFilter.jsx";
 import TerroristsAccordion from "../components/terroristsComponents/TerroristsList.jsx";
 
 export default function TerroristsPage() {
   const { orgId } = useParams();
+  
   const { loading, error, allTerroristsList } = useSelector(
     (state) => state.terrorists
   );
   const { allOrganizationsList } = useSelector((state) => state.organizations);
+
   const org = orgId
     ? allOrganizationsList?.find((org) => org.id == orgId)
     : null;

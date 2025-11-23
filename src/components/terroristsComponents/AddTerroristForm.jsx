@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+
 import { Box, TextField, Button, MenuItem, Typography } from "@mui/material";
 
 import { fetchAddTerrorist } from "../../redux/api/fetchTerrorists";
@@ -40,7 +41,6 @@ export default function AddTerroristForm() {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,

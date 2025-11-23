@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+
 import {
   Table,
   TableBody,
@@ -18,7 +19,7 @@ export default function OrganizationsTable({ organizations }) {
 
   const columns = [
     { id: "name", label: "Organization" },
-    { id: "activityYears", label: "Activity years" },
+    { id: "activityStart", label: "Activity years" },
     { id: "threatLevel", label: "Threat level" },
     { id: "terroristCount", label: "Total terrorists" },
   ];
@@ -74,7 +75,11 @@ export default function OrganizationsTable({ organizations }) {
               onClick={() => navigate(`/organization/${org.id}`)}
             >
               {columns.map((col) => (
-                <TableCell key={col.id}>{org[col.id]}</TableCell>
+                <TableCell key={col.id}>
+                  {col.id === "activityStart"
+                    ? org.activityStart + org.activityEnd
+                    : org[col.id]}
+                </TableCell>
               ))}
             </TableRow>
           ))}

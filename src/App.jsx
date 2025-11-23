@@ -1,4 +1,4 @@
-import InitDataApp from "./initData/InitDataApp.jsx";
+import InitDataApp from "./components/initData/InitDataApp.jsx";
 
 import Layout from "./components/layout/Layout.jsx";
 

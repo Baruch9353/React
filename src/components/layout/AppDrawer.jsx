@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+
 import { styled, Drawer, List, ListItemButton, ListItemText } from "@mui/material";
 
 import SentinelEye from "../../assets/SentinelEye.png";
@@ -27,11 +28,13 @@ const StyledList = styled(List)({
 
 export default function AppDrawer({ open, setOpen }) {
   const navigate = useNavigate();
+  
   const items = [
     { text: "Dashboard", path: "/dashboard" },
     { text: "Organizations", path: "/organizations" },
     { text: "Terrorists", path: "/terrorists" },
   ];
+
   return (
     <StyledDrawer open={open} onClose={() => setOpen(false)} anchor="left">
       <Logo src={SentinelEye} alt="Sentinel Eye Logo" />

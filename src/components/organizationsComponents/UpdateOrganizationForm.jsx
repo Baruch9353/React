@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+
 import { Box, TextField, Button, Typography } from "@mui/material";
 
 import { fetchUpdateOrganization } from "../../redux/api/fetchOrganizations";
@@ -48,7 +49,7 @@ export default function UpdateOrganizationForm() {
     const organization = {
       ...formData,
       activityEnd:
-      formData.activityEnd === "" ? " - Present" : formData.activityEnd,
+        formData.activityEnd === "" ? " - Present" : formData.activityEnd,
       id: orgId,
     };
 
@@ -108,7 +109,9 @@ export default function UpdateOrganizationForm() {
 
       <TextField
         name="activityEnd"
-        value={formData.activityEnd}
+        value={
+          formData.activityEnd === " - Present" ? "" : formData.activityEnd
+        }
         onChange={handleChange}
         type="month"
         label="____To (optional)"

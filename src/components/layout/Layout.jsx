@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+
 import {
   styled,
   AppBar,
@@ -10,6 +11,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
+import Footer from "./Footer.jsx";
 import SentinelEye from "../../assets/SentinelEye.png";
 import { Logo } from "../layout/AppDrawer.jsx";
 import AppDrawer from "../layout/AppDrawer.jsx";
@@ -39,8 +41,12 @@ export default function Layout({ children }) {
           />
         </Toolbar>
       </StyledAppBar>
-      <Box mt={"8rem"}>{children}</Box>
       <AppDrawer open={open} setOpen={setOpen} />
+
+      <Box mt={"8rem"}>{children}</Box>
+      <Box mb={"5rem"}>
+        <Footer />
+      </Box>
     </>
   );
 }

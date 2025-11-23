@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { Box, TextField, Button, Typography } from "@mui/material";
 
 import { fetchAddOrganization } from "../../redux/api/fetchOrganizations";
@@ -39,7 +40,7 @@ export default function AddOrganizationForm() {
       setFeedback("Organization added successfully!");
       event.target.reset();
     } catch (err) {
-      setFeedback("Failed to add Organization. " + err);
+      setFeedback("Failed to add Organization.");
     }
   };
 
@@ -56,7 +57,7 @@ export default function AddOrganizationForm() {
       }}
     >
       <Typography fontSize="2rem" color="#316743ff">
-        add a new organization
+        Add a new organization
       </Typography>
 
       <TextField
@@ -90,7 +91,9 @@ export default function AddOrganizationForm() {
 
       <TextField
         name="activityEnd"
-        value={formData.activityEnd}
+        value={
+          formData.activityEnd === " - Present" ? "" : formData.activityEnd
+        }
         onChange={handleChange}
         type="month"
         label="____To (optional)"

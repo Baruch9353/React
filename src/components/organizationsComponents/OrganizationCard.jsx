@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+
 import {
   Avatar,
   Card,
@@ -18,6 +19,7 @@ const StyledCard = styled(Card)({
   borderRadius: "1rem",
   boxShadow: "0 4px 8px rgba(1, 1, 1, 0.7)",
 });
+
 export const StyledAvatar = styled(Avatar)({
   justifySelf: "center",
   width: "5rem",

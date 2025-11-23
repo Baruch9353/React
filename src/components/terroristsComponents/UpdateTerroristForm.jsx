@@ -48,7 +48,6 @@ export default function UpdateTerroristForm() {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 
 import { Box, Typography, TextField, Button } from "@mui/material";
+
 import { StyledAvatar } from "../organizationsComponents/OrganizationCard";
 
 export default function TopPageFilter({
@@ -21,27 +22,26 @@ export default function TopPageFilter({
     navigate(pathClickAdd);
   };
 
-  
   const handleClickUpdate = () => {
     navigate(`/updateOrganization/${org.id}`);
   };
 
-  function filterByOrg(data) {
+  const filterByOrg = (data) => {
     return org ? data.filter((ter) => ter.idOfOrganization === org.id) : data;
-  }
+  };
 
-  async function fetchSearchAndFilter() {
+  const fetchSearchAndFilter = async () => {
     const { payload = [] } = await dispatch(fetchFunc({ search }));
     onChange(filterByOrg(payload));
-  }
+  };
 
   useEffect(() => {
-    if (!search) {
+    if (!search.trim()) {
       onChange(filterByOrg(initialData));
     } else {
       fetchSearchAndFilter();
     }
-  }, [search, org, initialData, onChange]);
+  }, [search, org, initialData]);
 
   return (
     <Box
@@ -69,9 +69,7 @@ export default function TopPageFilter({
         onChange={(event) => setSearch(event.target.value)}
       />
 
-      {org && (
-        <Button onClick={handleClickUpdate}>✏️</Button>
-      )}
+      {org && <Button onClick={handleClickUpdate}>✏️</Button>}
 
       <Button onClick={handleClickAdd}>➕</Button>
     </Box>
