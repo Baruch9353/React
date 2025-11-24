@@ -1,18 +1,18 @@
-import { Box, Typography } from "@mui/material";
+import { styled, Box, Typography } from "@mui/material";
 
 import OrganizationsTable from "./OrganizationsTable";
 
+const StyledDashboard = styled(Box)({
+  color: "#316743",
+  display: "flex",
+  flexDirection: "column",
+  padding: "2rem 2rem 2rem 2rem",
+  margin: "2rem 2rem 2rem 2rem",
+});
+
 export default function DashboardContent({ organizations, terrorists }) {
   return (
-    <Box
-      sx={{
-        color: "#316743",
-        display: "flex",
-        flexDirection: "column",
-        padding: "2rem 2rem 2rem 2rem",
-        margin: "2rem 2rem 2rem 2rem",
-      }}
-    >
+    <StyledDashboard>
       <Typography fontSize="2rem" align="center">
         Dashboard Overview
       </Typography>
@@ -33,9 +33,7 @@ export default function DashboardContent({ organizations, terrorists }) {
         </Typography>
       </Box>
 
-      <OrganizationsTable
-        organizations={organizations}
-      />
-    </Box>
+      <OrganizationsTable organizations={organizations} />
+    </StyledDashboard>
   );
-};
+}

@@ -10,6 +10,7 @@ export const Logo = styled("img")({
   padding: "0.8rem",
   borderRadius: "1.3rem",
 });
+
 const StyledDrawer = styled(Drawer)({
   "& .MuiDrawer-paper": {
     width: "13rem",
@@ -18,6 +19,7 @@ const StyledDrawer = styled(Drawer)({
     alignItems: "center",
   },
 });
+
 const StyledList = styled(List)({
   borderTop: "0.1rem solid #316743ff",
   backgroundColor: "#cef3f7ff",
@@ -25,6 +27,7 @@ const StyledList = styled(List)({
   width: "90%",
   borderRadius: "1rem",
 });
+
 
 export default function AppDrawer({ open, setOpen }) {
   const navigate = useNavigate();
