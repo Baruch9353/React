@@ -6,7 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Box, TextField, Button, Typography } from "@mui/material";
 
-import { fetchUpdateOrganization } from "../../redux/api/fetchOrganizations";
+import {
+  fetchOrganizations,
+  fetchUpdateOrganization,
+} from "../../redux/api/fetchOrganizations";
 
 export default function UpdateOrganizationForm() {
   const { orgId } = useParams();
@@ -58,10 +61,11 @@ export default function UpdateOrganizationForm() {
 
     try {
       await dispatch(fetchUpdateOrganization(organization)).unwrap();
+      await dispatch(fetchOrganizations()).unwrap();
       setFeedback("Organization updated successfully!");
       setTimeout(() => {
         navigate(-1);
-      }, 1500)
+      }, 1500);
     } catch (err) {
       setFeedback("Failed to update Organization. " + err);
     }
