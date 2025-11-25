@@ -74,7 +74,7 @@ export default function UpdateTerroristForm() {
 
     try {
       await dispatch(fetchUpdateTerrorist(terrorist)).unwrap();
-      await dispatch(fetchTerrorists).unwrap();
+      await dispatch(fetchTerrorists()).unwrap();
       setFeedback("Terrorist updated successfully!");
       setTimeout(() => {
         navigate(-1);
