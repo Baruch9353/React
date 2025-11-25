@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -12,6 +13,7 @@ const intelConfidences = ["Low", "Medium", "High"];
 export default function UpdateTerroristForm() {
   const { orgId, id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { allOrganizationsList } = useSelector((state) => state.organizations);
   const { allTerroristsList } = useSelector((state) => state.terrorists);
@@ -73,6 +75,9 @@ export default function UpdateTerroristForm() {
     try {
       await dispatch(fetchUpdateTerrorist(terrorist)).unwrap();
       setFeedback("Terrorist updated successfully!");
+      setTimeout(() => {
+        navigate(-1);
+      }, 1500)
     } catch (err) {
       setFeedback("Failed to update terrorist.");
     }

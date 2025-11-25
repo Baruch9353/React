@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
 
 import { Box, TextField, Button, Typography } from "@mui/material";
 
@@ -7,6 +8,7 @@ import { fetchAddOrganization } from "../../redux/api/fetchOrganizations";
 
 export default function AddOrganizationForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [feedback, setFeedback] = useState("");
 
@@ -38,7 +40,9 @@ export default function AddOrganizationForm() {
     try {
       await dispatch(fetchAddOrganization(organization)).unwrap();
       setFeedback("Organization added successfully!");
-      event.target.reset();
+      setTimeout(() => {
+        navigate(-1);
+      }, 1500)
     } catch (err) {
       setFeedback("Failed to add Organization.");
     }

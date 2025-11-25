@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,6 +11,7 @@ import { fetchUpdateOrganization } from "../../redux/api/fetchOrganizations";
 export default function UpdateOrganizationForm() {
   const { orgId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { allOrganizationsList } = useSelector((state) => state.organizations);
   const org = allOrganizationsList.find((org) => org.id === orgId);
@@ -56,7 +59,9 @@ export default function UpdateOrganizationForm() {
     try {
       await dispatch(fetchUpdateOrganization(organization)).unwrap();
       setFeedback("Organization updated successfully!");
-      event.target.reset();
+      setTimeout(() => {
+        navigate(-1);
+      }, 1500)
     } catch (err) {
       setFeedback("Failed to update Organization. " + err);
     }

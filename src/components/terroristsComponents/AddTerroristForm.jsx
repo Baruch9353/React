@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,6 +12,7 @@ const intelConfidences = ["Low", "Medium", "High"];
 
 export default function AddTerroristForm() {
   const { orgId } = useParams();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const { allOrganizationsList } = useSelector((state) => state.organizations);
@@ -65,6 +67,9 @@ export default function AddTerroristForm() {
     try {
       await dispatch(fetchAddTerrorist(terrorist)).unwrap();
       setFeedback("Terrorist added successfully!");
+      setTimeout(() => {
+        navigate(-1);
+      }, 1500)
     } catch (err) {
       setFeedback("Failed to add terrorist.");
     }
