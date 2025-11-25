@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Box, TextField, Button, MenuItem, Typography } from "@mui/material";
 
-import { fetchTerrorists, fetchUpdateTerrorist } from "../../redux/api/fetchTerrorists";
+import { fetchUpdateTerrorist } from "../../redux/api/fetchTerrorists";
 
 const statuses = ["Active", "Detained", "Deceased", "Unknown"];
 const intelConfidences = ["Low", "Medium", "High"];
@@ -74,7 +74,6 @@ export default function UpdateTerroristForm() {
 
     try {
       await dispatch(fetchUpdateTerrorist(terrorist)).unwrap();
-      await dispatch(fetchTerrorists()).unwrap();
       setFeedback("Terrorist updated successfully!");
       setTimeout(() => {
         navigate(-1);

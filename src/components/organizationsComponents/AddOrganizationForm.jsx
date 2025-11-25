@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 
 import { Box, TextField, Button, Typography } from "@mui/material";
 
-import { fetchOrganizations, fetchAddOrganization } from "../../redux/api/fetchOrganizations";
+import { fetchAddOrganization } from "../../redux/api/fetchOrganizations";
 
 export default function AddOrganizationForm() {
   const dispatch = useDispatch();
@@ -39,7 +39,6 @@ export default function AddOrganizationForm() {
 
     try {
       await dispatch(fetchAddOrganization(organization)).unwrap();
-      await dispatch(fetchOrganizations()).unwrap();
       setFeedback("Organization added successfully!");
       setTimeout(() => {
         navigate(-1);
